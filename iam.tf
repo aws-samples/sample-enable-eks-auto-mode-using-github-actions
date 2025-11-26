@@ -14,7 +14,7 @@ provider "aws" {
 variable "github_repository" {
   description = "GitHub repository in format owner/repo"
   type        = string
-  default     = "urbija1/eks-auto-mode-github-actions"
+  default     = "aws-samples/sample-enable-eks-auto-mode-using-github-actions"
 }
 
 variable "aws_region" {
