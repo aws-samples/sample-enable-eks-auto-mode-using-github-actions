@@ -77,7 +77,7 @@ gh secret set AWS_ROLE_ARN --body "arn:aws:iam:ACCOUNT_ID:role/GitHubActionsEKSR
 The workflow consists of three main jobs:
 1. `check-clusters`: Identifies clusters without Auto Mode enabled and updates IAM policies/subnet tags.
 2. `backup-and-check`: Backs up cluster state before migration
-3. 'gradual-migration' : enables Auto Mode while gradually draining existing node groups and cleaning up old 
+3. `gradual-migration` : enables Auto Mode while gradually draining existing node groups and cleaning up old 
 scaling components.
 
  
