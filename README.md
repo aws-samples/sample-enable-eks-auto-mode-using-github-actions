@@ -72,18 +72,15 @@ gh secret set AWS_REGION --body "us-east-1"
 gh secret set AWS_ROLE_ARN --body "arn:aws:iam:ACCOUNT_ID:role/GitHubActionsEKSRole" 
 #replace the account id with your account ID
 ```
+### 5. Add the IAM role to cluster's configmap (optional):
 
-### 5. GitHub Actions Workflow
-The workflow consists of three main jobs:
-1. `check-clusters`: Identifies clusters without Auto Mode enabled and updates IAM policies/subnet tags.
-2. `backup-and-check`: Backs up cluster state before migration
-3. `gradual-migration` : enables Auto Mode while gradually draining existing node groups and cleaning up old 
-scaling components.
+```bash
+eksctl create iamidentitymapping \ --cluster $CLUSTER_NAME\ --region us-east-1 \ --arn arn:aws:iam::$ACCOUNT_ID:role/GitHubActionsEKSRole \ --group system:masters \ --username github-actions
+```
 
- 
-### 3. Resource Cleanup
-### Detach IAM Role
-To remove the IAM role from the aws-auth configmap, run:
+### . Resource Cleanup
+### Detach IAM Role (optional)
+To remove the IAM role from the aws-auth configmap if added, run:
 
 ```bash
 eksctl delete iamidentitymapping \
@@ -107,6 +104,14 @@ The solution architecture involves:
 - Region-specific implementation
 - Requires cluster endpoint accessibility
 - Limited to AWS-managed node groups
+
+### GitHub Actions Workflow
+The workflow consists of three main jobs:
+1. `check-clusters`: Identifies clusters without Auto Mode enabled and updates IAM policies/subnet tags.
+2. `backup-and-check`: Backs up cluster state before migration
+3. `gradual-migration` : enables Auto Mode while gradually draining existing node groups and cleaning up old 
+scaling components.
+
 
 ## Files Structure
 ```
