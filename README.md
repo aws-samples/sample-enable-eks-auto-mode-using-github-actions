@@ -58,8 +58,10 @@ git clone https://github.com/aws-samples/sample-enable-eks-auto-mode-using-githu
 cd sample-enable-eks-auto-mode-using-github-actions
 cp .github/workflows/enable-eks-auto-mode.yml /path/to/your/repository/.github/workflows
 ```
-
-### 3. Configuration
+### 3. Push the changes to your repository
+Commit the new workflow file and push to your repository
+ 
+### 4. Configuration
 - Update the git secrets for the repository:
 ```bash
 gh auth login --web  #authenticate to your github account using web
@@ -71,11 +73,14 @@ gh secret set AWS_ROLE_ARN --body "arn:aws:iam:ACCOUNT_ID:role/GitHubActionsEKSR
 #replace the account id with your account ID
 ```
 
-### 4. GitHub Actions Workflow
-The workflow consists of two main jobs:
-1. `check-clusters`: Identifies clusters without Auto Mode enabled
-2. `enable-auto-mode`: Enables Auto Mode on identified clusters
+### 5. GitHub Actions Workflow
+The workflow consists of three main jobs:
+1. `check-clusters`: Identifies clusters without Auto Mode enabled and updates IAM policies/subnet tags.
+2. `backup-and-check`: Backs up cluster state before migration
+3. 'gradual-migration' : enables Auto Mode while gradually draining existing node groups and cleaning up old 
+scaling components.
 
+ 
 ### 3. Resource Cleanup
 ### Detach IAM Role
 To remove the IAM role from the aws-auth configmap, run:
