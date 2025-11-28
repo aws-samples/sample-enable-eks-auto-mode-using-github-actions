@@ -80,7 +80,7 @@ eksctl create iamidentitymapping \ --cluster $CLUSTER_NAME\ --region us-east-1 \
 
 ### . Resource Cleanup
 ### Detach IAM Role (optional)
-To remove the IAM role from the aws-auth configmap if added, run:
+To remove the IAM role from the aws-auth configmap (if added), run:
 
 ```bash
 eksctl delete iamidentitymapping \
