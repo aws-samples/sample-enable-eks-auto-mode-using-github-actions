@@ -62,7 +62,7 @@ cp .github/workflows/enable-eks-auto-mode.yml /path/to/your/repository/.github/w
 Commit the new workflow file and push to your repository
  
 ### 4. Configuration
-- Update the git secrets for the repository:
+- Update the git secrets for your repository:
 ```bash
 gh auth login --web  #authenticate to your github account using web
 
