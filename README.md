@@ -84,7 +84,7 @@ To remove the IAM role from the aws-auth configmap if added, run:
 
 ```bash
 eksctl delete iamidentitymapping \
-  --cluster $cluster \
+  --cluster $cluster \  
   --region $AWS_REGION \
   --arn $ROLE_ARN
 ```
