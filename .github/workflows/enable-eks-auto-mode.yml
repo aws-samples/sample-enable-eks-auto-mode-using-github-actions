@@ -204,13 +204,14 @@ jobs:
       
       - name: Process clusters
         run: |
-          # echo "Enabling Auto Mode on ${{ matrix.cluster }} while keeping existing nodes"
-          
           CLUSTERS="${{ needs.check-clusters.outputs.clusters-needing-auto-mode }}"
+          # In this solution, we create AmazonEKSAutoNodeRole if not present (see previous job).You can also reference your own existing node roles here
           NODE_ROLE_ARN="$(aws iam get-role --role-name AmazonEKSAutoNodeRole --query 'Role.Arn' --output text)"
           for cluster in $CLUSTERS; do
             aws eks update-kubeconfig --name $cluster --region ${{ env.AWS_REGION }}
             echo "🔄 Enabling Auto Mode on cluster $cluster..."
+            #You can use system node pools (general-purpose, system) or your own custom node pools. Here, general-purpose is used
+            # You can also modify network settings using --kubernetes-network-config, Define IP range for Kubernetes services (serviceIpv4Cidr) and set IPv4 or IPv6 addressing for cluster network (ipFamily) 
              if aws eks update-cluster-config --name "$cluster" \
               --compute-config "{\"enabled\":true, \"nodeRoleArn\": \"$NODE_ROLE_ARN\", \"nodePools\": [\"general-purpose\"]}" \
               --kubernetes-network-config '{"elasticLoadBalancing":{"enabled":true}}' \
